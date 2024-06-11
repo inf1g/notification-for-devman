@@ -15,19 +15,15 @@ def get_response(token, status=None):
     headers = {
         'Authorization': f'Token {token}'
     }
-    print(status)
     response = requests.get(url, headers=headers, params=status)
     response.raise_for_status()
-    print(response.json())
     return response.json()
 
 
 def check_status(json):
     if json['status'] == 'timeout':
-        print(json['timestamp_to_request'])
         return json['timestamp_to_request']
     else:
-        print(json['status'])
         return json['status']
 
 
@@ -47,7 +43,6 @@ def main():
             alert(nick_name)
             break
         else:
-            print("False")
             timestamp = {"timestamp": status}
             status = check_status(get_response(token, timestamp))
             continue
