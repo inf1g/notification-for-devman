@@ -24,27 +24,26 @@ def check_status(response):
     if response['status'] == 'timeout':
         return response['timestamp_to_request']
     else:
-        return response['status'], response["new_attempts"][0]["is_negative"]
+        return response['status'], response["new_attempts"][0]["is_negative"], response["new_attempts"][0]["lesson_url"]
 
 
-def alert(name, is_negative):
+def alert(is_negative, lesson_url):
     if is_negative:
         answer = 'Нет'
     else:
         answer = 'Да'
     toast('DEVMAN', f'Ответ по решению урока 🐦 Урок сдан {answer}',
           audio='ms-winsoundevent:Notification.Looping.Alarm3',
-          on_click=f'https://dvmn.org/works/author/{name}/'
+          on_click=lesson_url
           )
 
 
 def main():
     token = configure_keys("DEVMAN_TOKEN")
-    nick_name = configure_keys("NICK")
-    status, is_negative = check_status(get_response(token))
+    status, is_negative, lesson_url = check_status(get_response(token))
     while True:
         if status == "found":
-            alert(nick_name, is_negative)
+            alert(is_negative, lesson_url)
             break
         else:
             timestamp = {"timestamp": status}
