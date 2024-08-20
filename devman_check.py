@@ -32,7 +32,7 @@ def alert(is_negative, lesson_url):
         answer = 'Нет'
     else:
         answer = 'Да'
-    toast('DEVMAN', f'Ответ по решению урока 🐦 Урок сдан {answer}',
+    toast('DEVMAN', f'Ответ по решению урока 🐦 Урок сдан?: {answer}',
           audio='ms-winsoundevent:Notification.Looping.Alarm3',
           on_click=lesson_url
           )
